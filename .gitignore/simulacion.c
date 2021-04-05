@@ -1,40 +1,27 @@
 #include<stdio.h>
 #include<stdlib.h>
-//estructura de procesos
+
 struct informacion{
-    int llegada,rafaga,tiemporespuesta,TAT,tiempoespera;
-    int np;
+    int llegada,rafaga,tiemporespuesta,TAT,tiempoespera,np;
 };
 typedef struct informacion datoproceso;
-
-//varibles globales
-int n; 
-int i,j,tiempot=0;
-int cola[20];
-int t=0,inicio=0,fin=0,cont=0;
+int n, i,j,tiempot=0,cola[20],t=0,inicio=0,fin=0,cont=0;
 datoproceso temporal;
 
-//funcion apilar
-void apilar (int q){
+void apilando (int q){
 	cola[fin++] = q;
 }
-
-//funcion desapilar
-int desapilar (){
+int desapilando (){
     int x;
     x = cola[inicio++];
     return x;
 }
-
-//funcion comprobar
 void comprobar(datoproceso a[]){
-
     while(a[j].llegada <= t && j < n){
         cont++;
-        apilar(j++);
+        apilando(j++);
     }
 }
-//funcion imprimir
 void imprimir (datoproceso arr[]){
     for(i=0;i<n;i++)
     {
@@ -48,7 +35,6 @@ void imprimir (datoproceso arr[]){
     }
     printf("\n");
 }
-//funcion encontrar
 void encontrar(datoproceso a[]){
     int temp_bt[n],band=0,cont2=0;
     int act;
@@ -61,12 +47,12 @@ void encontrar(datoproceso a[]){
     }
     t = a[0].llegada;
     cont=1;
-    apilar(j++);
+    apilando(j++);
     while(t <= tiempot){
         
         if(band==1 || cont!=0){
             if(band==0 && cont2==0){
-                act=desapilar();
+                act=desapilando();
                 cont2=0;
                 band=1;
             }
@@ -85,7 +71,7 @@ void encontrar(datoproceso a[]){
                 cont2=0;
                 t++;
                 comprobar(a);
-                apilar(act);
+                apilando(act);
                 band=0;
             }
             else{t++;
@@ -126,17 +112,15 @@ int main (){
             }
         }
     }
-
-
     tiempot += proceso[0].llegada + proceso[0].rafaga;
     for(i=1;i<n;i++)     {
 		if(proceso[i].llegada > tiempot)
             tiempot = proceso[i].llegada;
         tiempot += proceso[i].rafaga;
     }
-
     encontrar(proceso);
 	system ("PAUSE");
 	
     return 0;
 }
+
